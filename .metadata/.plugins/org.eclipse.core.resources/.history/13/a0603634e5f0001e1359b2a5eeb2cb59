@@ -1,0 +1,22 @@
+package service;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import dao.SayThatDao;
+import vo.SignUpVO;
+
+public class SayThatService {
+	SayThatDao dao = new SayThatDao();
+	
+	public String userIdCheck(HttpServletRequest req, HttpServletResponse resp) {
+		String result = dao.userIdCheck(req, resp);
+		return result;
+	}
+
+	public void signUpInsert(SignUpVO vo) {
+		dao.signUpInsert(vo);
+		
+	}
+
+}

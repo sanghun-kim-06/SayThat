@@ -1,0 +1,24 @@
+package controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import service.SayThatService;
+import vo.SignUpVO;
+
+public class SignUpController implements Controller{
+	@Override
+	public String excute(HttpServletRequest req, HttpServletResponse resp) {
+		if(req.getMethod().equals("POST")) {
+			SayThatService service = new SayThatService();
+			SignUpVO vo = new SignUpVO();
+			
+			service.signUpInsert();
+			return "";
+		}else {
+			return "signUp";
+		}
+		
+	}
+
+}

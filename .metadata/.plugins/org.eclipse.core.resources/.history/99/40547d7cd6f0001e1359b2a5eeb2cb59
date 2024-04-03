@@ -1,0 +1,72 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import common.DBUtils;
+import vo.SignUpVO;
+
+
+public class SayThatDao {
+	public String userIdCheck(HttpServletRequest req, HttpServletResponse resp) {
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		String result = "";
+		
+		try {
+			conn = DBUtils.getConnection();
+			String id = req.getParameter("id");
+			System.out.println(id);
+			String sql = " SELECT userid FROM USERS where userid = ? ";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			if(!rs.next()) {
+				result = "사용 가능한 ID입니다.";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtils.close(conn, psmt, rs);
+		}
+		
+		return result;
+		
+
+	}
+
+	public void signUpInsert(SignUpVO vo) {
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		int n = 0;
+		boolean signUp_ok = false;		
+		try {
+			conn = DBUtils.getConnection();
+			String sql = " INSERT INTO USERS VALUES(?, ?, ?, ?, ?) ";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getId());
+			psmt.setString(2, vo.getPassword());
+			psmt.setString(3, vo.getName());
+			psmt.setDate(4, vo.getJoindate());
+			psmt.setString(5, vo.getPhone());
+			n = psmt.executeUpdate();
+			if(n > 0) {
+				conn.commit();
+			}else {
+				conn.rollback();
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtils.close(conn, psmt);
+		}
+		
+	}
+
+}

@@ -1,0 +1,14 @@
+package service;
+
+import dao.SayThatDao;
+
+public class SayThatService {
+	SayThatDao dao = new SayThatDao();
+	
+	public String userIdCheck() {
+		System.out.println("디에오 실행 전");
+		String result = dao.userIdCheck();
+		return result;
+	}
+
+}
