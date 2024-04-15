@@ -48,7 +48,7 @@ public class SayThatDao {
 		int n = 0;	
 		try {
 			conn = DBUtils.getConnection();
-			String sql = " INSERT INTO USERS VALUES(?, ?, ?, ?, ?) ";
+			String sql = " INSERT INTO USERS VALUES(?, ?, ?, ?, null, ?) ";
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, vo.getId());
 			psmt.setString(2, vo.getPassword());
@@ -82,7 +82,7 @@ public class SayThatDao {
 		
 		try {
 			conn = DBUtils.getConnection();
-			String sql = " select userid, password from users where userid in(?) and password in(?) ";
+			String sql = " select userid, password from users where userid = ? and password = ? ";
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
 			psmt.setString(2, password);

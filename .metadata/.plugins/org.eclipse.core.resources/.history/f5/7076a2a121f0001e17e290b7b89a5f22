@@ -1,2 +1,0 @@
-SELECT * FROM USERS;
-SELECT userid FROM USERS where userid = 1;

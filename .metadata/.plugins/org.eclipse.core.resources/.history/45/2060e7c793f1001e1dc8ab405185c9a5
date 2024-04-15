@@ -1,7 +1,0 @@
-package vo;
-
-public class SignInVO {
-	private String id;
-	private String password;
-
-}

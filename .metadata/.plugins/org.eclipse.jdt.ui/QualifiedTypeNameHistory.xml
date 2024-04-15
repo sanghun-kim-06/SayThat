@@ -4,7 +4,6 @@
     <fullyQualifiedTypeName name="controller.SignUpController"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
     <fullyQualifiedTypeName name="java.sql.Date"/>
-    <fullyQualifiedTypeName name="controller.Controller"/>
     <fullyQualifiedTypeName name="service.SayThatService"/>
     <fullyQualifiedTypeName name="java.sql.Connection"/>
     <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
@@ -13,4 +12,6 @@
     <fullyQualifiedTypeName name="vo.SignUpVO"/>
     <fullyQualifiedTypeName name="vo.SignInVO"/>
     <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
+    <fullyQualifiedTypeName name="controller.Controller"/>
+    <fullyQualifiedTypeName name="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload"/>
 </qualifiedTypeNameHistroy>

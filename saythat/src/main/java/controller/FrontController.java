@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,8 @@ import org.json.simple.JSONObject;
 /**
  * Servlet implementation class FrontController
  */
-public class FrontController extends HttpServlet {
+@MultipartConfig
+public class FrontController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	String charset = null;
 	HashMap<String, Controller> list = null;
@@ -35,6 +37,7 @@ public class FrontController extends HttpServlet {
 		list.put("/", new MainController());
 		list.put("/signUp", new SignUpController());
 		list.put("/signIn", new SignInController());
+		list.put("/recording", new RecordingController());
 	}
 	
 	@Override

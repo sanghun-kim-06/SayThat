@@ -1,10 +1,21 @@
 package service;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.UUID;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
+import common.DBUtils;
 import dao.SayThatDao;
+import vo.RecordingVO;
 import vo.SignInVO;
 import vo.SignUpVO;
 
@@ -33,6 +44,56 @@ public class SayThatService {
 			req.setAttribute("loginError", "아이디 또는 비밀번호가 잘못되었습니다.");
 			return "signIn";
 		}
+	}
+	
+	public RecordingVO recordingUpload(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		RecordingVO vo = new RecordingVO();
+		try {
+			Part filePart = req.getPart("audioFile");
+			String uniqueID = UUID.randomUUID().toString();
+			String fileName = "file_" + uniqueID + ".ogg";
+			String basePath = "D:\\saythatrecrding\\";
+			
+			System.out.println(filePart + " 여기까지가 파일 데이터같고요 \n\t " + fileName);
+			
+			File fileSaveDir = new File(basePath);
+			if(!fileSaveDir.exists()) {
+				fileSaveDir.mkdir();
+			}
+			
+			filePart.write(basePath + fileName);
+			vo.setVoice(fileName);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return vo;
+	}
+
+	public void recordingQueryInsert(RecordingVO vo) {
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		int n =0;
+		try {
+			conn = DBUtils.getConnection();
+			String sql = " INSERT INTO CONTENTS VALUES(contentsidplus.NEXTVAL, ?, ?, ?, ?, ?, ?, null) ";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getUserid());
+			psmt.setString(2, vo.getTitle());
+			psmt.setString(3, vo.getVoice());
+			psmt.setString(4, vo.getPhoto1());
+			psmt.setString(5, vo.getPhoto2());
+			psmt.setDate(6, vo.getUploadDate());
+			n = psmt.executeUpdate();
+			if(n > 0) {
+				return;
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtils.close(conn, psmt, rs);
+		}
+		
 	}
 
 }
