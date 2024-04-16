@@ -2,16 +2,24 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="org.json.simple.JSONObject"/>
     <fullyQualifiedTypeName name="controller.SignUpController"/>
-    <fullyQualifiedTypeName name="java.util.Date"/>
-    <fullyQualifiedTypeName name="java.sql.Date"/>
+    <fullyQualifiedTypeName name="vo.SignUpVO"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
+    <fullyQualifiedTypeName name="controller.Controller"/>
+    <fullyQualifiedTypeName name="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload"/>
     <fullyQualifiedTypeName name="service.SayThatService"/>
+    <fullyQualifiedTypeName name="javax.servlet.annotation.MultipartConfig"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.Part"/>
+    <fullyQualifiedTypeName name="java.util.UUID"/>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="vo.RecordingVO"/>
+    <fullyQualifiedTypeName name="javax.websocket.Session"/>
     <fullyQualifiedTypeName name="java.sql.Connection"/>
     <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
     <fullyQualifiedTypeName name="common.DBUtils"/>
-    <fullyQualifiedTypeName name="vo.SignUpVO"/>
     <fullyQualifiedTypeName name="vo.SignInVO"/>
-    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
-    <fullyQualifiedTypeName name="controller.Controller"/>
-    <fullyQualifiedTypeName name="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload"/>
+    <fullyQualifiedTypeName name="controller.RecordingController"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="java.sql.SQLDataException"/>
+    <fullyQualifiedTypeName name="java.sql.Date"/>
 </qualifiedTypeNameHistroy>

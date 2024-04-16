@@ -35,12 +35,27 @@ if(request.getAttribute("loginError") != null){
 <head>
 <meta charset="UTF-8">
 <title>Say That</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+<style>
+
+
+</style>
 </head>
 <body>
-<h2>Say That</h2>
+<h2 class="sayThat">Say That</h2>
 <p>하지 못한 말을 해야한다! Say That 메인 페이지입니다. <br></p>
-<a href="/signUp">회원가입 페이지</a>
-<a href="/signIn">로그인</a>
-<a href="/recording">일기 쓰기</a>
+<ul class="nav">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="/signUp">회원가입 페이지</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/signIn">로그인</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/recording">일기 쓰기</a>
+  </li>
+</ul>
+
 </body>
 </html>
