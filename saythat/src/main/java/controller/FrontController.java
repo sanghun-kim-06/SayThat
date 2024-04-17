@@ -38,6 +38,7 @@ public class FrontController extends HttpServlet{
 		list.put("/signUp", new SignUpController());
 		list.put("/signIn", new SignInController());
 		list.put("/recording", new RecordingController());
+		list.put("/postlist", new PostListController());
 	}
 	
 	@Override

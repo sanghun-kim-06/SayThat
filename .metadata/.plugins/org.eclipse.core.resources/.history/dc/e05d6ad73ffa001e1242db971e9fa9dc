@@ -1,0 +1,21 @@
+package controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
+
+public class RecordingController implements Controller{
+	@Override
+	public String excute(HttpServletRequest req, HttpServletResponse resp) {
+		if(req.getMethod().equals("POST")) {
+			System.out.println("포스트 요청이 왔어요,");
+			System.out.println(ServletFileUpload.isMultipartContent(req));
+			req.setAttribute("message", "업로드 성공?");
+		}
+		
+		return "recording";
+	}
+
+}

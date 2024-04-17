@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -126,4 +127,8 @@ public class SayThatService {
 		
 	}
 
+	public ArrayList<RecordingVO> postlist() {
+		
+		return dao.postlist();
+	}
 }

@@ -3,12 +3,14 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.DBUtils;
+import vo.RecordingVO;
 import vo.SignInVO;
 import vo.SignUpVO;
 
@@ -100,6 +102,36 @@ public class SayThatDao {
 			DBUtils.close(conn, psmt, rs);
 		}
 		return vo;
+	}
+
+	public ArrayList<RecordingVO> postlist() {
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		ArrayList<RecordingVO> list = new ArrayList<RecordingVO>();
+		try {
+			conn = DBUtils.getConnection();
+			String sql = " SELECT * FROM CONTENTS ";
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				RecordingVO vo = new RecordingVO();
+				vo.setContentId(rs.getInt(1));
+				vo.setUserid(rs.getString(2));
+				vo.setTitle(rs.getString(3));
+				vo.setVoice(rs.getString(4));
+				vo.setPhoto1(rs.getString(5));
+				vo.setPhoto2(rs.getString(6));
+				System.out.println(rs.getString(7) + " " + rs.getDate(7));
+				vo.setUploadDate(rs.getDate(7));
+				list.add(vo);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtils.close(conn, psmt, rs);
+		}
+		return list;
 	}
 
 }

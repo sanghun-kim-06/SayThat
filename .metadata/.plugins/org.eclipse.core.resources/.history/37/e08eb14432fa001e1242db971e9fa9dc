@@ -1,0 +1,91 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Say That</title>
+</head>
+<body>
+<h2>Say That</h2>
+<p>하지 못한 말을 해야한다! Say That 녹음 사이트입니다. <br></p>
+<button id="recordBtn">녹음 시작</button>
+<br><br>
+<audio controls>녹음된 소리를 재생할 audio 엘리먼트</audio>
+<div id="sound-clips"></div>
+  <script>
+    // 엘리먼트 취득
+    const $audioEl = document.querySelector("audio");
+    const $recordBtn = document.querySelector("#recordBtn");
+
+    // 녹음중 및 일시 정지 상태 변수
+    let isRecording = false;
+    let isPaused = false;
+
+    // MediaRecorder 변수 생성
+    let mediaRecorder = null;
+
+    // 녹음 데이터 저장 배열
+    const audioArray = [];
+
+    $recordBtn.onclick = async function () {
+        if (!isRecording) {
+            // 녹음 시작
+            const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
+            mediaRecorder = new MediaRecorder(mediaStream);
+
+            mediaRecorder.ondataavailable = (event) => {
+                audioArray.push(event.data);
+            };
+            
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(audioArray, {"type": "audio/ogg codecs=opus"});
+                audioArray.splice(0);
+                const blobURL = window.URL.createObjectURL(blob);
+                $audioEl.src = blobURL;
+            };
+
+            mediaRecorder.start();
+            isRecording = true;
+            $recordBtn.textContent = "일시 정지";
+        }  else if (isRecording && !isPaused) {
+        	// 일시 정지
+            mediaRecorder.pause();
+            isPaused = true;
+            $recordBtn.textContent = "계속 녹음";
+            
+            // 현재까지의 녹음 데이터로 오디오 클립 생성 및 재생 준비
+            const currentBlob = new Blob(audioArray, {"type": "audio/wav"});
+            const currentBlobURL = window.URL.createObjectURL(currentBlob);
+            console.log(currentBlobURL);
+            $audioEl.src = currentBlobURL;
+            
+            // 오디오 "재로딩" 및 재생
+            $audioEl.load(); // 새로운 소스로 오디오 엘리먼트를 재로딩합니다.
+            $audioEl.play().catch(e => console.error("오디오 재생 실패:", e));
+        } else if (isRecording && isPaused) {
+            // 계속 녹음
+            mediaRecorder.resume();
+            isPaused = false;
+            $recordBtn.textContent = "일시 정지";
+        }
+    };
+
+    // 녹음 중지 및 저장 버튼 추가
+    const $stopBtn = document.createElement("button");
+    $stopBtn.textContent = "녹음 중지";
+    document.body.appendChild($stopBtn);
+
+    $stopBtn.onclick = function() {
+        if (mediaRecorder && isRecording) {
+            mediaRecorder.stop();
+            isRecording = false;
+            isPaused = false;
+            $recordBtn.textContent = "녹음 시작";
+        }
+    }
+</script>
+
+
+</body>
+</html>
