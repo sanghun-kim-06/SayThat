@@ -54,4 +54,4 @@ CREATE SEQUENCE contentsidplus
 START WITH 1
 INCREMENT BY 1;
 
-delete from CONTENTS where photo_1 is null;
+delete from CONTENTS where userid = 'admin';

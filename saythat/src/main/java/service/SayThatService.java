@@ -48,54 +48,51 @@ public class SayThatService {
 	}
 	
 	public RecordingVO recordingUpload(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-		RecordingVO vo = new RecordingVO();
-		try {
-			//녹음 파일을 폴더에 저장하고, ID를 생성해서 vo에 저장.
-			Part filePart = req.getPart("audioFile");
-			String uniqueID = UUID.randomUUID().toString();
-			String fileName = "file_" + uniqueID + ".ogg";
-			String basePath = "D:\\saythatrecrding\\";
-			String photobasePath = "D:\\saythatphoto\\";
-			
-			
-			File fileSaveDir = new File(basePath);
-			if(!fileSaveDir.exists()) {
-				fileSaveDir.mkdir();
-			}
-			
-			filePart.write(basePath + fileName);
-			vo.setVoice(fileName);
-			
-			//녹음 파일을 폴더에 저장하고, ID를 생성해서 vo에 저장.
-			Part photo1filePart = req.getPart("photo1");
-			System.out.println("들어오는 값 1 : " + photo1filePart);
-			if(photo1filePart != null) {
-		
-				String p1uniqueID = UUID.randomUUID().toString();
-				String p1fileName = "file_" + p1uniqueID + ".jpg";
-				photo1filePart.write(photobasePath + p1fileName);
-				
-				vo.setPhoto1(p1fileName);
-	
-			}
-			
-			Part photo2filePart = req.getPart("photo2");
-			
-			if(photo2filePart != null) {
-		
-				String p2uniqueID = UUID.randomUUID().toString();
-				String p2fileName = "file_" + p2uniqueID + ".jpg";
-				photo2filePart.write(photobasePath + p2fileName);
-				
-				vo.setPhoto2(p2fileName);
+	    RecordingVO vo = new RecordingVO();
+	    try {
+	        // ServletContext를 통해 실제 경로를 얻음
+	        String appPath = req.getServletContext().getRealPath("/");
+	        String recordingPath = appPath + "res/recording";
+	        String photoPath = appPath + "res/photo";
 
-			}
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		return vo;
+	        // 녹음 파일 처리
+	        Part filePart = req.getPart("audioFile");
+	        String uniqueID = UUID.randomUUID().toString();
+	        String fileName = "file_" + uniqueID + ".ogg";
+
+	        File fileSaveDir = new File(recordingPath);
+	        if (!fileSaveDir.exists()) {
+	            fileSaveDir.mkdirs(); // mkdirs로 변경하여 중간 경로도 함께 생성
+	        }
+
+	        filePart.write(recordingPath + File.separator + fileName);
+	        vo.setVoice(fileName);
+
+	        // 사진 파일 처리
+	        Part photo1filePart = req.getPart("photo1");
+	        if (photo1filePart != null) {
+	            String p1uniqueID = UUID.randomUUID().toString();
+	            String p1fileName = "file_" + p1uniqueID + ".jpg";
+	            photo1filePart.write(photoPath + File.separator + p1fileName);
+
+	            vo.setPhoto1(p1fileName);
+	        }
+
+	        Part photo2filePart = req.getPart("photo2");
+	        if (photo2filePart != null) {
+	            String p2uniqueID = UUID.randomUUID().toString();
+	            String p2fileName = "file_" + p2uniqueID + ".jpg";
+	            photo2filePart.write(photoPath + File.separator + p2fileName);
+
+	            vo.setPhoto2(p2fileName);
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return vo;
 	}
+
 
 	public void recordingQueryInsert(RecordingVO vo) {
 		Connection conn = null;
