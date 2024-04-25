@@ -1,0 +1,39 @@
+<%@page import="vo.RecordingVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%
+if(request.getAttribute("list") == null){
+	
+}else {
+	ArrayList<RecordingVO> list = (ArrayList<RecordingVO>)request.getAttribute("list");
+	%>
+	
+	<section>
+<h2>게시글 테이블의 데이터 목록</h2>
+<table>
+	<tr>
+		<td>게시글 아이디</td>
+		<td>유저</td>
+		<td>제목</td>
+		<td>목소리일기</td>
+		<td>사진1</td>
+		<td>사진2</td>
+		<td>업로드일자</td>
+	</tr>
+</table>
+</section>
+	
+	<%
+}
+%>
+
+</body>
+</html>

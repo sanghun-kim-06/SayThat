@@ -1,0 +1,137 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import common.DBUtils;
+import vo.RecordingVO;
+import vo.SignInVO;
+import vo.SignUpVO;
+
+
+public class SayThatDao {
+	public String userIdCheck(HttpServletRequest req, HttpServletResponse resp) {
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		String result = "";
+		
+		try {
+			conn = DBUtils.getConnection();
+			String id = req.getParameter("id");
+			System.out.println(id);
+			String sql = " SELECT userid FROM USERS where userid = ? ";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			if(!rs.next()) {
+				result = "사용 가능한 ID입니다.";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtils.close(conn, psmt, rs);
+		}
+		
+		return result;
+		
+
+	}
+
+	public void signUpInsert(SignUpVO vo) {
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		int n = 0;	
+		try {
+			conn = DBUtils.getConnection();
+			String sql = " INSERT INTO USERS VALUES(?, ?, ?, ?, null, ?) ";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getId());
+			psmt.setString(2, vo.getPassword());
+			psmt.setString(3, vo.getName());
+			psmt.setDate(4, vo.getJoindate());
+			psmt.setString(5, vo.getPhone());
+			n = psmt.executeUpdate();
+			if(n > 0) {
+				conn.commit();
+			}else {
+				conn.rollback();
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtils.close(conn, psmt);
+		}
+		
+		return;
+		
+	}
+
+	public SignInVO signIn(HttpServletRequest req, HttpServletResponse resp) {
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		SignInVO vo = null;
+		String id = req.getParameter("id");
+		String password = req.getParameter("password");
+		String result = null;
+		
+		try {
+			conn = DBUtils.getConnection();
+			String sql = " select userid, password from users where userid = ? and password = ? ";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			psmt.setString(2, password);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				vo = new SignInVO();
+				vo.setId(rs.getString(1));
+				vo.setPassword(rs.getString(2));
+			}else {
+				result = "아이디 또는 패스워드를 확인하세요.";
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtils.close(conn, psmt, rs);
+		}
+		return vo;
+	}
+
+	public ArrayList<RecordingVO> postlist() {
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		ArrayList<RecordingVO> list = new ArrayList<RecordingVO>();
+		try {
+			conn = DBUtils.getConnection();
+			String sql = " SELECT * FROM CONTENTS ";
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				RecordingVO vo = new RecordingVO();
+				vo.setContentId(rs.getInt(1));
+				vo.setUserid(rs.getString(2));
+				vo.setTitle(rs.getString(3));
+				vo.setVoice(rs.getString(4));
+				vo.setPhoto1(rs.getString(5));
+				vo.setPhoto2(rs.getString(6));
+				System.out.println(rs.getString(7));
+				vo.setUploadDate(java.sql.Date.valueOf(rs.getString(7)));
+				list.add(vo);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtils.close(conn, psmt, rs);
+		}
+		return list;
+	}
+
+}

@@ -106,9 +106,7 @@ public class SayThatService {
 			psmt.setString(1, vo.getUserid());
 			psmt.setString(2, vo.getTitle());
 			psmt.setString(3, vo.getVoice());
-			System.out.println("입력한 사진1 : "+ vo.getPhoto1());
 			psmt.setString(4, vo.getPhoto1());
-			System.out.println("입력한 사진2 : "+ vo.getPhoto2());
 
 			psmt.setString(5, vo.getPhoto2());
 			psmt.setDate(6, vo.getUploadDate());

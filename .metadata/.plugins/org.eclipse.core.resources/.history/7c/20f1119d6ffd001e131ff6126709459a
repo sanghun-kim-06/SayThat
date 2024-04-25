@@ -1,0 +1,79 @@
+<%@page import="vo.RecordingVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%! 
+    private final String filePathVoice = "D:\\saythatrecrding\\";
+    private final String filePathPhoto = "D:\\saythatphoto\\";
+    %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<style>
+h2{
+	text-align: center;
+}
+section{
+margin: 0 auto;}
+table, tr, td{
+	border: 1px solid black;
+	border-collapse: collapse;
+	border-radius: 15px;
+	
+}
+img{
+	width: 150px;
+	height: 150px;
+}
+</style>
+<body>
+<%
+if(request.getAttribute("list") == null){
+	%><h2>현재 목록을 불러올 수 없습니다.</h2><%
+}else {
+	ArrayList<RecordingVO> list = (ArrayList<RecordingVO>)request.getAttribute("list");
+	%>
+	
+	<section>
+<h2>게시글 테이블의 데이터 목록</h2>
+<table>
+	<tr>
+		<td>게시글 아이디</td>
+		<td>유저</td>
+		<td>제목</td>
+		<td>목소리일기</td>
+		<td>사진1</td>
+		<td>사진2</td>
+		<td>업로드일자</td>
+	</tr>
+	<%
+	for(RecordingVO vo : list){
+		%>
+		<tr>
+			<td><%=vo.getContentId() %></td>
+			<td><%=vo.getUserid() %></td>
+			<td><%=vo.getTitle() %></td>
+			<td>
+				<audio controls>
+				   <source src="/res/recording/<%=vo.getVoice() %>" type="audio/ogg">
+				</audio>
+			</td>
+			<td><img src="/res/photo/<%=vo.getPhoto1() %>" alt="file Image"></td>
+			<td><img src="/res/photo/<%=vo.getPhoto2() %>" alt="file Image"></td>
+		<td><%=vo.getUploadDate() %></td>
+	</tr>
+		<%
+	}
+	%>
+</table>
+</section>
+	
+	<%
+}
+%>
+
+</body>
+</html>
